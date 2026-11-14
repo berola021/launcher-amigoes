@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Amigoes RPG</title>
+<style>
+:root{--bg:#07142b;--panel:#102747;--blue:#62b9ff;--blue2:#238fe0;--muted:#9db8d3}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#164b78 0,#0b2342 35%,var(--bg) 75%);color:#f4f9ff;font-family:Arial,sans-serif;min-height:100vh}
+.wrap{max-width:520px;margin:auto;padding:22px 18px 35px}.top{display:flex;justify-content:space-between;align-items:center}.brand{font-size:12px;letter-spacing:3px;color:var(--blue);font-weight:800}.badge{font-size:10px;border:1px solid #3675a8;border-radius:30px;padding:7px 10px;color:#b8ddfa}
+.hero{margin-top:30px;padding:26px 20px;border:1px solid #2b5d88;border-radius:24px;background:linear-gradient(145deg,rgba(28,89,137,.7),rgba(10,31,59,.94));box-shadow:0 18px 50px #0005}
+.kicker{color:#8bcfff;font-size:11px;letter-spacing:3px;font-weight:bold}.title{font-size:38px;line-height:.98;font-weight:900;margin:10px 0}.title span{color:var(--blue)}.subtitle{color:#b5cce2;font-size:13px;line-height:1.5}
+.info{display:flex;gap:9px;margin-top:20px}.pill{background:#0b1e36;border:1px solid #28547c;border-radius:12px;padding:10px 12px;font-size:11px;color:#cce6fb;flex:1}
+.section{margin-top:23px}.heading{font-size:13px;font-weight:800;letter-spacing:1px;margin-bottom:12px}.versions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.version{background:#102947;border:1px solid #28527a;border-radius:16px;padding:15px 12px;min-height:135px}.version.active{border:2px solid var(--blue);background:linear-gradient(145deg,#174875,#102947)}.version h3{margin:0 0 7px;font-size:16px}.version p{font-size:11px;line-height:1.45;color:#aec4d9;margin:0}.tag{display:inline-block;margin-top:10px;color:#8fd0ff;font-size:9px;font-weight:bold;letter-spacing:1px}
+.progressbox{margin-top:18px;background:#0b1d34;border:1px solid #234c72;border-radius:15px;padding:14px}.progressrow{display:flex;justify-content:space-between;color:#bcd2e6;font-size:11px}.track{height:7px;background:#203b57;border-radius:20px;margin-top:11px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#278de0,#8bd4ff);border-radius:20px;transition:width .3s}
+button{border:0;cursor:pointer;font-weight:900}.play{width:100%;margin-top:18px;padding:17px;border-radius:14px;color:#06203a;background:linear-gradient(90deg,#8bd4ff,#43aaff);font-size:15px;letter-spacing:2px;box-shadow:0 9px 25px #168ce755}.secondary{background:#173755;color:#d7edff;border:1px solid #315d83;border-radius:12px;padding:12px;width:100%;margin-top:9px}
+.settings{display:none;background:#102947;border:1px solid #2a5277;padding:15px;border-radius:16px;margin-top:12px}.settings.show{display:block}label{display:block;color:#b8d0e5;font-size:11px;margin:12px 0 5px}input{width:100%;padding:12px;border:1px solid #315b7e;border-radius:10px;background:#091a30;color:white;font-size:13px} .toggle{display:flex;align-items:center;justify-content:space-between;color:#d8edff;font-size:12px;padding:9px 0}.toggle input{width:20px}
+.note{font-size:10px;line-height:1.5;color:#91abc3;margin-top:13px}.footer{text-align:center;margin-top:25px;color:#7899b7;font-size:10px;line-height:1.8}
+</style></head>
+<body><main class="wrap">
+<div class="top"><div class="brand">AMIGOES <span style="color:white">RPG</span></div><div class="badge">MOBILE LAUNCHER</div></div>
+<section class="hero"><div class="kicker">SEU ROLE COMEÇA AQUI</div><div class="title">AMIGOES<br><span>ROLEPLAY</span></div><div class="subtitle">Entre na cidade, faça sua história e jogue com seus amigos.</div>
+<div class="info"><div class="pill">🌐 <b id="serverLabel">localhost:7777</b></div><div class="pill">👑 Kalifa &amp; Gilgrau</div></div></section>
+<section class="section"><div class="heading">ESCOLHA SUA VERSÃO</div><div class="versions">
+<div class="version active" id="lite" onclick="selectVersion('lite')"><h3>⚡ LITE</h3><p>Pacote reduzido, texturas leves e foco em desempenho para celulares modestos.</p><div class="tag">LEVE • OTIMIZADA</div></div>
+<div class="version" id="full" onclick="selectVersion('full')"><h3>💎 COMPLETA</h3><p>Pacote completo com recursos visuais e arquivos em maior qualidade.</p><div class="tag">EXPERIÊNCIA COMPLETA</div></div>
+</div>
+<div class="progressbox"><div class="progressrow"><span id="status">Pronto para preparar os arquivos</span><b id="pct">0%</b></div><div class="track"><div class="fill" id="fill"></div></div></div>
+<button class="secondary" onclick="downloadPack()">BAIXAR PACOTE SELECIONADO</button>
+<button class="play" onclick="play()">▶ &nbsp; JOGAR</button>
+</section>
+<section class="section"><button class="secondary" onclick="toggleSettings()">⚙ CONFIGURAÇÕES</button>
+<div class="settings" id="settings">
+<label>Endereço do servidor</label><input id="host" value="localhost">
+<label>Porta</label><input id="port" type="number" value="7777">
+<label>Pacote Android do cliente SA-MP</label><input id="gamepkg" value="com.sa-mp.launcher" placeholder="Pacote do cliente instalado">
+<div class="toggle"><span>Ativar opção Lock On (interface)</span><input id="lock" type="checkbox" onchange="saveSettings()"></div>
+<div class="toggle"><span>Modo de desempenho (Lite)</span><input id="perf" type="checkbox" checked></div>
+<p class="note">O Lock On visual só ativa a opção no launcher. Para funcionar dentro do jogo é necessária integração com o cliente SA-MP e implementação compatível no código do servidor/cliente.</p>
+<button class="secondary" onclick="saveSettings()">SALVAR CONFIGURAÇÕES</button>
+</div></section>
+<div class="footer">AMIGOES RPG • DESENVOLVIDO PARA A COMUNIDADE<br>CRIADORES: KALIFA &amp; GILGRAU</div>
+</main>
+<script>
+let version='lite';
+const urls={lite:'https://SEU-SITE.com/amigoes-lite.zip',full:'https://SEU-SITE.com/amigoes-completo.zip'};
+function selectVersion(v){version=v;document.getElementById('lite').classList.toggle('active',v==='lite');document.getElementById('full').classList.toggle('active',v==='full');document.getElementById('status').textContent='Versão '+(v==='lite'?'Lite':'Completa')+' selecionada';}
+function toggleSettings(){document.getElementById('settings').classList.toggle('show')}
+function saveSettings(){localStorage.setItem('host',host.value);localStorage.setItem('port',port.value);localStorage.setItem('pkg',gamepkg.value);localStorage.setItem('lock',lock.checked);localStorage.setItem('perf',perf.checked);serverLabel.textContent=host.value+':'+port.value;Android.toast('Configurações salvas!')}
+function downloadPack(){let url=urls[version];if(url.includes('SEU-SITE.com')){Android.toast('Configure primeiro os links reais dos pacotes no arquivo index.html.');return;}status.textContent='Download iniciado: '+version.toUpperCase();pct.textContent='Gerenciado pelo Android';fill.style.width='12%';Android.download(url,'amigoes-'+version+'.zip');}
+function play(){saveSettings();Android.connect(host.value,parseInt(port.value||'7777'),gamepkg.value.trim());}
+host.value=localStorage.getItem('host')||'localhost';port.value=localStorage.getItem('port')||'7777';gamepkg.value=localStorage.getItem('pkg')||'com.sa-mp.launcher';lock.checked=localStorage.getItem('lock')==='true';perf.checked=localStorage.getItem('perf')!=='false';serverLabel.textContent=host.value+':'+port.value;
+</script></body></html>
